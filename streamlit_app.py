@@ -7,9 +7,9 @@ def main():
     
     # Personal Information
     st.markdown("### 📝 Personal Information")
-    name = st.text_input("Full Name")
+    name = st.text_input("What's your Full Name")
     age = st.number_input("Age", min_value=14, max_value=25, step=1)
-    education = st.text_input("High School & Additional Learning")
+    education = st.text_input("Where did you go to High School?")
     career_interests = st.text_area("Career Interests")
     
     st.markdown("---")
@@ -82,40 +82,23 @@ def main():
     
     # Section 2: Fun Aptitude Test
     st.markdown("### 🎭 Fun Aptitude Test")
-    st.write("Try this quick challenge based on your strengths!")
+    st.write("Try these quick challenges based on your strengths!")
     
-    task_prompt = random.choice([
+    task_prompts = random.sample([
         "You’re designing a new school system. How would you make learning more fun?",
         "Imagine you're given unlimited resources to solve a global challenge. What would you focus on?",
         "You have 60 seconds to create a short story with the words: 'dream', 'journey', and 'unexpected'. Go!",
         "Create a simple math puzzle using numbers under 20.",
-        "If you could design a new musical instrument, what would it sound like and look like?"
-    ])
+        "If you could design a new musical instrument, what would it sound like and look like?",
+        "Sketch a futuristic city and describe how technology and nature coexist.",
+        "Develop a 3-step plan to help a community reduce plastic waste.",
+        "Come up with a game that teaches people about financial literacy.",
+        "Write a motivational speech for students preparing for their final exams."
+    ], 3)
     
-    response = st.text_area(f"🚀 {task_prompt}")
-    
-    st.markdown("---")
-    
-    # Personality-Based Career Exploration with Intelligence Combinations
-    st.markdown("### 🧩 Personality & Career Exploration")
-    st.write("Based on your strengths, here are some career possibilities that combine multiple intelligences. These represent what might interest you before your Uwazi exposure and assessment!")
-    
-    career_suggestions = {
-        "Linguistic & Interpersonal": "AI Ethics Consultant, Digital Storyteller, Virtual Reality Scriptwriter, Social Media Strategist",
-        "Logical-Mathematical & Spatial": "AI Architect, Game Developer, Robotics Engineer, Computational Designer",
-        "Musical & Bodily-Kinesthetic": "Virtual Concert Director, Sound-Driven Fitness Instructor, Music Therapist, Motion-Capture Performer",
-        "Interpersonal & Intrapersonal": "Human-Centered AI Designer, Mindfulness Coach, Innovation Facilitator, Community Builder",
-        "Naturalistic & Logical-Mathematical": "Environmental Data Scientist, Sustainable Tech Engineer, AI-Powered Conservationist, Climate Tech Specialist",
-        "Logical-Mathematical & Linguistic": "Cryptocurrency Analyst, Algorithmic Journalist, Data Storyteller",
-        "Spatial & Naturalistic": "Urban Planner, Sustainable Fashion Designer, Eco-Architect"
-    }
-    
-    top_intelligence = max(scores, key=scores.get)
-    combined_career = random.choice(list(career_suggestions.keys()))
-    st.write(f"✨ Based on your responses, careers related to **{combined_career}** may interest you:")
-    st.write(f"🔹 **{career_suggestions[combined_career]}**")
-    
-    interest_check = st.radio("Do any of these careers sound interesting to you?", ["Yes", "No", "Maybe"])
+    for i, task in enumerate(task_prompts, 1):
+        st.write(f"🚀 Task {i}: {task}")
+        response = st.text_area(f"Your response to Task {i}")
     
     st.markdown("---")
     
