@@ -3,7 +3,7 @@ import random
 
 def main():
     st.title("🌟 Uwazi Pre-Assessment for Excandidates")
-    st.subheader("Discover Your Strengths & Map Your Future with the Siri MaP")
+    st.subheader("Karibu Soma Siri Afrika! Get ready to Discover Your Strengths & Map Your Future with the Siri MaP")
     
     # Personal Information
     st.markdown("### 📝 Personal Information")
