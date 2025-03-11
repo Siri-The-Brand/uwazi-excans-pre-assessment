@@ -1,7 +1,11 @@
 import streamlit as st
 import random
+import pandas as pd
 
 def main():
+    st.set_page_config(page_title="Uwazi Pre-Assessment", page_icon="ssapp_logo.png", layout="centered")
+    
+      
     st.title("🌟 Uwazi Pre-Assessment for Excandidates")
     st.subheader("Karibu Soma Siri Afrika! Get ready to Discover Your Strengths & Map Your Future with the Siri MaP")
     
@@ -102,7 +106,27 @@ def main():
     
     st.markdown("---")
     
-    # Future Steps After Uwazi
+    # Display Results in the App
+    st.subheader("📊 Your Assessment Summary")
+    st.write(f"**👤 Name:** {name}")
+    st.write(f"**🎓 Education:** {education}")
+    st.write(f"**💡 Career Interests:** {career_interests}")
+    
+    st.subheader("🧠 Your Strengths Based on Multiple Intelligences")
+    sorted_scores = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+    for intelligence, score in sorted_scores:
+        st.write(f"**{intelligence}:** {score}/20")
+    
+    # Save results to CSV
+    if st.button("💾 Save My Results"):
+        user_data = {"Name": name, "Age": age, "Education": education, "Career Interests": career_interests}
+        for intelligence, score in scores.items():
+            user_data[intelligence] = score
+        df = pd.DataFrame([user_data])
+        df.to_csv("uwazi_results.csv", mode='a', header=False, index=False)
+        st.success("✅ Your results have been saved successfully!")
+    
+    st.markdown("---")
     st.subheader("🔮 What Comes Next?")
     st.write("✅ After Uwazi and exposure to real-world problem-solving, we will refine your career pathway.")
     st.write("✅ Your **Siri MaP** will provide a more accurate, detailed guide based on your strengths and experiences.")
