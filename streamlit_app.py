@@ -5,7 +5,9 @@ import pandas as pd
 def main():
     st.set_page_config(page_title="Uwazi Pre-Assessment", page_icon="ssapp_logo.png", layout="centered")
     
-      
+    # Display Logo
+    st.image("ssapp_logo.png", width=150)
+    
     st.title("🌟 Uwazi Pre-Assessment for Excandidates")
     st.subheader("Karibu Soma Siri Afrika! Get ready to Discover Your Strengths & Map Your Future with the Siri MaP")
     
@@ -125,6 +127,11 @@ def main():
         df = pd.DataFrame([user_data])
         df.to_csv("uwazi_results.csv", mode='a', header=False, index=False)
         st.success("✅ Your results have been saved successfully!")
+    
+    # Admin View: View All Submitted Results
+    if st.checkbox("📂 View All Submitted Results (Admin Only)"):
+        df = pd.read_csv("uwazi_results.csv")
+        st.dataframe(df)
     
     st.markdown("---")
     st.subheader("🔮 What Comes Next?")
