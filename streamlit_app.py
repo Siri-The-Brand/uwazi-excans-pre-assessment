@@ -3,6 +3,15 @@ import random
 import pandas as pd
 import os
 
+data_folder = "uploads"
+os.makedirs(data_folder, exist_ok=True)
+
+def save_uploaded_file(uploaded_file, folder=data_folder):
+    file_path = os.path.join(folder, uploaded_file.name)
+    with open(file_path, "wb") as f:
+        f.write(uploaded_file.getbuffer())
+    return file_path
+
 def main():
     st.set_page_config(page_title="Uwazi Pre-Assessment", page_icon="ssapp_logo.png", layout="centered")
     
@@ -56,6 +65,11 @@ def main():
     for q in dream_questions:
         response = st.text_area(q)
         dream_responses[q] = response
+        
+        uploaded_file = st.file_uploader(f"Upload related media for: {q}", type=["png", "jpg", "mp3", "mp4"])
+        if uploaded_file:
+            file_path = save_uploaded_file(uploaded_file)
+            dream_responses[q + " (Media)"] = file_path
     
     st.subheader("Step 2: Design")
     design_questions = [
@@ -98,6 +112,14 @@ def main():
         if password_input == admin_password:
             df = pd.read_csv("uwazi_results.csv")
             st.dataframe(df)
+            
+            # Show uploaded media files
+            st.markdown("### 📁 Uploaded Files")
+            for col in df.columns:
+                if "(Media)" in col:
+                    st.write(f"📎 {col}: ")
+                    for file_path in df[col].dropna():
+                        st.write(f"[View File]({file_path})")
         else:
             st.error("❌ Incorrect Password. Access Denied.")
     
