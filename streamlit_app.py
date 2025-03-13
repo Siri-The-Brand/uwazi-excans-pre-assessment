@@ -19,7 +19,7 @@ def main():
     st.set_page_config(page_title="Uwazi Unit 1 - Pre Assessment & Co-Creation Hub", page_icon="🌍", layout="wide")
     
     st.title("🌟 Uwazi Co-Creation Hub")
-    st.subheader("Karibu Soma Siri Afrika! This week we start with the Pre Assessment where we want to understaand you better and how we can design this program to suit you best. Let's Design the Future of Talent Discovery")
+    st.subheader("Karibu Soma Siri Afrika! This week we start with the Pre Assessment where we want to understaand you better and how we can design this program to suit you best. Let's Design your Future through Talent Discovery")
     
     menu = ["📊 Pre-Assessment", "🎨 Co-Creation Lab", "🚀 AR Fun Challenges", "📂 View Responses (Admin)"]
     choice = st.sidebar.radio("Navigate", menu)
