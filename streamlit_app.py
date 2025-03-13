@@ -66,14 +66,46 @@ def main():
         
         questions = {
             "English": [
-                "How many days per week should a talent program run? What times work best?",
-                "What kind of learning experiences excite you the most? (E.g., industry visits, mentorship, real-world projects)",
-                "If you could design your dream talent development space, what would it include?"
+                "What kind of space would make talent discovery fun and exciting for you?",
+                "If you could design your dream talent discovery program, what would it look like?",
+                "What are creative ways we could explore different talents together?",
+                "What excites you the most about discovering and using your talents?",
+                "How many days a week should the program run? What time would be best?",
+                "What kind of learning experiences would you like? (E.g., company visits, job shadowing, hands-on projects)",
+                "What should a talent program include to help you develop your skills and career goals?",
+                "Would you benefit from guest speakers, internships, or real-world projects?",
+                "What support do you need to take action on your ideas?",
+                "What activities make you feel most alive and energized?",
+                "What is something you've done that made you feel proud?",
+                "Have you ever used your talent to help someone or solve a problem? What happened?",
+                "Which careers or industries excite you the most?",
+                "What careers have you thought about but need more exposure to?",
+                "If you had unlimited resources, what problem would you want to solve first?",
+                "What support would help you turn your ideas into reality?",
+                "What is one action you can take today to develop your talent or career interest?",
+                "How will you hold yourself accountable for your growth?",
+                "How would you like to stay engaged with Uwazi moving forward?"
             ],
             "Kiswahili": [
-                "Programu ya vipaji inapaswa kufanyika mara ngapi kwa wiki? Wakati gani ni bora?",
-                "Ni uzoefu gani wa kujifunza unakuvutia zaidi? (Mfano, ziara za viwanda, ulezi, miradi halisi)",
-                "Ikiwa ungetengeneza nafasi yako bora ya kukuza vipaji, ungehusisha nini?"
+                "Ni aina gani ya nafasi ingefanya kugundua vipaji kuwa jambo la kufurahisha kwako?",
+                "Ikiwa ungeweza kubuni programu bora ya kugundua vipaji, ingekuwaje?",
+                "Ni njia zipi za ubunifu ambazo tunaweza kutumia kuchunguza vipaji kwa pamoja?",
+                "Ni nini kinakuvutia zaidi kuhusu kugundua na kutumia vipaji vyako?",
+                "Ungependa programu ifanyike mara ngapi kwa wiki? Wakati gani ungependa?",
+                "Ungependa uzoefu gani wa kujifunza? (Mfano, ziara za makampuni, kujifunza kwa vitendo, miradi ya mikono)",
+                "Programu ya vipaji inapaswa kujumuisha nini ili kusaidia kukuza ujuzi na malengo yako ya kazi?",
+                "Ungepata faida kutoka kwa wazungumzaji wa wageni, mafunzo ya kazi, au miradi halisi?",
+                "Ungehitaji msaada gani ili kuchukua hatua kuhusu mawazo yako?",
+                "Ni shughuli zipi zinakufanya ujisikie hai na mwenye shauku?",
+                "Ni kitu gani umewahi kufanya kilichokufanya ujisikie fahari?",
+                "Umewahi kutumia kipaji chako kusaidia mtu au kutatua tatizo? Ilikuwaje?",
+                "Ni taaluma au viwanda vipi vinakuvutia zaidi?",
+                "Ni taaluma gani umewahi kufikiria lakini unahitaji maelezo zaidi kuyahusu?",
+                "Ikiwa ungekuwa na rasilimali zote unazohitaji, ni tatizo gani ungetaka kulitatua kwanza?",
+                "Msaada gani ungehitaji ili kufanya mawazo yako kuwa halisi?",
+                "Ni hatua gani moja unaweza kuchukua leo kukuza kipaji chako au maslahi yako ya kazi?",
+                "Utawezaje kujibebesha jukumu la ukuaji wako?",
+                "Ungependa kushiriki vipi na Uwazi siku zijazo?"
             ]
         }
         
@@ -83,7 +115,7 @@ def main():
             responses[q] = response
             
             media_option = st.radio(f"How would you like to respond to: {q}", ["📸 Take a Photo", "📹 Record a Video", "📁 Upload Media", "✍️ Text Only"], key=q)
-            if media_option == "📸 Take a Photo" or media_option == "📹 Record a Video":
+            if media_option in ["📸 Take a Photo", "📹 Record a Video"]:
                 uploaded_file = st.camera_input(f"Capture a response for: {q}")
                 if uploaded_file:
                     file_path = save_uploaded_file(uploaded_file)
@@ -93,18 +125,6 @@ def main():
                 if uploaded_file:
                     file_path = save_uploaded_file(uploaded_file)
                     responses[q + " (Media)"] = file_path
-            
-        st.markdown("### 🎨 Sketch Your Dream Talent Program")
-        canvas_result = st_canvas(
-            fill_color="rgba(255, 165, 0, 0.3)",
-            stroke_width=5,
-            stroke_color="#000000",
-            background_color="#ffffff",
-            height=300,
-            width=600,
-            drawing_mode="freedraw",
-            key="canvas_sketch"
-        )
         
         if st.button("💾 Save My Co-Creation Responses"):
             user_data = {}
@@ -112,25 +132,6 @@ def main():
             df = pd.DataFrame([user_data])
             df.to_csv("uwazi_cocreation_results.csv", mode='a', header=False, index=False)
             st.success("✅ Your Co-Creation responses have been saved successfully!")
-    
-    elif choice == "📂 View Responses (Admin)":
-        admin_password = "UwaziAdmin2025"
-        password_input = st.text_input("Enter Admin Password", type="password")
-        if password_input == admin_password:
-            df1 = pd.read_csv("uwazi_results.csv")
-            st.subheader("📊 Pre-Assessment Results")
-            st.dataframe(df1)
-            
-            df2 = pd.read_csv("uwazi_cocreation_results.csv")
-            st.subheader("🛠 Co-Creation Responses")
-            st.dataframe(df2)
-        else:
-            st.error("❌ Incorrect Password. Access Denied.")
-    
-    st.markdown("---")
-    st.subheader("🔮 What Comes Next?")
-    st.write("✅ Your **Siri MaP** will refine your career pathway based on your insights!")
-    st.write("🚀 Stay tuned for deeper insights and personalized career mapping!")
-    
+
 if __name__ == "__main__":
     main()
