@@ -2,31 +2,6 @@ import streamlit as st
 import random
 import pandas as pd
 import os
-import json
-from googleapiclient.discovery import build
-from googleapiclient.http import MediaFileUpload
-from google.oauth2 import service_account
-
-# Authenticate Google Drive API with Service Account
-SERVICE_ACCOUNT_FILE = "service_account.json"  # Ensure this file is uploaded to your environment
-SCOPES = ["https://www.googleapis.com/auth/drive"]
-
-def authenticate_google_drive():
-    creds = service_account.Credentials.from_service_account_file(
-        SERVICE_ACCOUNT_FILE, scopes=SCOPES
-    )
-    return build("drive", "v3", credentials=creds)
-
-drive_service = authenticate_google_drive()
-
-def upload_to_drive(file_path, file_name, folder_id="YOUR_GOOGLE_DRIVE_FOLDER_ID"):  # Replace with your Google Drive Folder ID
-    file_metadata = {
-        "name": file_name,
-        "parents": [folder_id]
-    }
-    media = MediaFileUpload(file_path, resumable=True)
-    file = drive_service.files().create(body=file_metadata, media_body=media, fields="id").execute()
-    return f"https://drive.google.com/file/d/{file['id']}/view"
 
 def main():
     st.set_page_config(page_title="Uwazi Pre-Assessment", page_icon="ssapp_logo.png", layout="centered")
@@ -81,15 +56,6 @@ def main():
     for q in dream_questions:
         response = st.text_area(q)
         dream_responses[q] = response
-        
-        file = st.file_uploader(f"Upload related media for: {q}", type=["png", "jpg", "mp3", "mp4"])
-        if file:
-            file_path = f"temp_{file.name}"
-            with open(file_path, "wb") as f:
-                f.write(file.getbuffer())
-            link = upload_to_drive(file_path, file.name)
-            dream_responses[q + " (Media)"] = link
-            os.remove(file_path)
     
     st.subheader("Step 2: Design")
     design_questions = [
