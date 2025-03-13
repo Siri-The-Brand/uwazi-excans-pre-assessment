@@ -4,6 +4,7 @@ import pandas as pd
 import os
 from streamlit_drawable_canvas import st_canvas
 
+# Ensure uploads folder exists
 data_folder = "uploads"
 os.makedirs(data_folder, exist_ok=True)
 
@@ -14,7 +15,7 @@ def save_uploaded_file(uploaded_file, folder=data_folder):
     return file_path
 
 def main():
-    st.set_page_config(page_title="Uwazi Pre-Assessment", page_icon="ssapp_logo.png", layout="centered")
+    st.set_page_config(page_title="Uwazi Platform", page_icon="ssapp_logo.png", layout="centered")
     
     st.title("🌟 Uwazi Platform")
     st.subheader("Karibu Soma Siri Afrika! Discover Your Strengths & Map Your Future with the Siri MaP")
@@ -61,60 +62,52 @@ def main():
             st.success("✅ Your pre-assessment results have been saved successfully!")
     
     elif choice == "Co-Creation: Uwazi Design":
-        st.markdown("## 🛠 CO-CREATING UWAZI for Excandidates")
+        st.markdown("## 🛠 CO-CREATING UWAZI: Designing the Best Talent Program")
         st.subheader("Step 1: Dream")
-        dream_questions = [
-            "What kind of interactive space excites you the most?",
-            "If you could design an interactive space, what would it look like?",
-        ]
         
-        dream_responses = {}
-        for q in dream_questions:
+        st.write("Choose your preferred language: ")
+        language = st.radio("Language", ["English", "Kiswahili"])
+        
+        questions = {
+            "English": [
+                "What would the perfect talent discovery program look like for you?",
+                "How many days per week should it run? What times would work best?",
+                "What kind of hands-on experiences do you want? (E.g., company visits, job shadowing, mentorship)",
+                "If you could design your dream learning environment, what would it include?"
+            ],
+            "Kiswahili": [
+                "Ungependa programu bora ya kugundua vipaji ionekane vipi?",
+                "Ungependa ifanyike mara ngapi kwa wiki? Wakati gani ungependa?",
+                "Ungependa uzoefu gani wa vitendo? (Mfano, ziara za makampuni, kujifunza kwa vitendo, ulezi)",
+                "Ikiwa ungetengeneza mazingira yako bora ya kujifunza, ungejumuisha nini?"
+            ]
+        }
+        
+        responses = {}
+        for q in questions[language]:
             response = st.text_area(q)
-            dream_responses[q] = response
+            responses[q] = response
             
-            uploaded_file = st.file_uploader(f"Upload related media for: {q}", type=["png", "jpg", "mp3", "mp4"])
+            uploaded_file = st.file_uploader(f"📸 Upload a photo or record a video for: {q}", type=["png", "jpg", "mp4"])
             if uploaded_file:
                 file_path = save_uploaded_file(uploaded_file)
-                dream_responses[q + " (Media)"] = file_path
+                responses[q + " (Media)"] = file_path
             
-            st.markdown("### 🎨 Sketch Your Idea")
-            canvas_result = st_canvas(
-                fill_color="rgba(255, 165, 0, 0.3)",  # Light orange
-                stroke_width=5,
-                stroke_color="#000000",
-                background_color="#ffffff",
-                height=300,
-                width=600,
-                drawing_mode="freedraw",
-                key=f"canvas_{q}"
-            )
-        
-        st.subheader("Step 2: Design")
-        design_questions = [
-            "What should be included in a program that helps young people develop their talents?",
-        ]
-        
-        design_responses = {}
-        for q in design_questions:
-            response = st.text_area(q)
-            design_responses[q] = response
-        
-        st.subheader("Step 3: Do")
-        do_questions = [
-            "What feedback do you have on the ideas presented?",
-        ]
-        
-        do_responses = {}
-        for q in do_questions:
-            response = st.text_area(q)
-            do_responses[q] = response
+        st.markdown("### 🎨 Sketch Your Dream Learning Space")
+        canvas_result = st_canvas(
+            fill_color="rgba(255, 165, 0, 0.3)",
+            stroke_width=5,
+            stroke_color="#000000",
+            background_color="#ffffff",
+            height=300,
+            width=600,
+            drawing_mode="freedraw",
+            key="canvas_sketch"
+        )
         
         if st.button("💾 Save My Co-Creation Responses"):
             user_data = {}
-            user_data.update(dream_responses)
-            user_data.update(design_responses)
-            user_data.update(do_responses)
+            user_data.update(responses)
             df = pd.DataFrame([user_data])
             df.to_csv("uwazi_cocreation_results.csv", mode='a', header=False, index=False)
             st.success("✅ Your Co-Creation responses have been saved successfully!")
