@@ -143,7 +143,7 @@ def main():
 
             # Perform calculation
         if st.button("Calculate"):
-        if operation == "+":
+            if operation == "+":
             result = num1 + num2
         elif operation == "-":
             result = num1 - num2
