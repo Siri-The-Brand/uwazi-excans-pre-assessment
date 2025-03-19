@@ -124,39 +124,7 @@ def main():
         elif ar_challenge == "🕵️‍♂️ Find & Capture Talent in Your Environment":
             st.write("Take photos of objects or people around you that inspire learning and talent growth!")
             uploaded_file = st.camera_input("Capture something inspiring:")
-        elif ar_challenge == "👨🏾‍💻 Let's do some coding...pole pole tu":
-            st.write("We will start by learning some coding with Python! 🚀")
-    
-            st.markdown("""
-            ### 🖥️ Your Task: Build a Simple Calculator
-            - Enter two numbers.
-            - Choose an operation: Add, Subtract, Multiply, or Divide.
-            - Click **Calculate** to see the result.
-            """)
 
-            # Take user inputs
-            num1 = st.number_input("Enter the first number:", step=1.0)
-            num2 = st.number_input("Enter the second number:", step=1.0)
-            
-            # Select operation
-            operation = st.selectbox("Choose an operation:", ["+", "-", "*", "/"])
-
-            # Perform calculation
-        if st.button("Calculate"):
-            if operation == "+":
-            result = num1 + num2
-        elif operation == "-":
-            result = num1 - num2
-        elif operation == "*":
-            result = num1 * num2
-        elif operation == "/":
-            if num2 != 0:
-                result = num1 / num2
-            else:
-                result = "Error! Division by zero."
-        
-        # Display result
-        st.success(f"✅ The result of {num1} {operation} {num2} is: {result}")
 
             if uploaded_file:
                 save_uploaded_file(uploaded_file)
